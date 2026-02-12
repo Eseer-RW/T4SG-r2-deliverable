@@ -1,5 +1,10 @@
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
+/** Species with joined author profile (from select with profiles!species_author_fkey) */
+export type SpeciesWithAuthor = Database["public"]["Tables"]["species"]["Row"] & {
+  profiles: { display_name: string; email: string } | null;
+};
+
 export interface Database {
   public: {
     Tables: {
@@ -36,6 +41,7 @@ export interface Database {
           author: string;
           common_name: string | null;
           description: string | null;
+          endangered: boolean;
           id: number;
           image: string | null;
           kingdom: Database["public"]["Enums"]["kingdom"];
@@ -46,6 +52,7 @@ export interface Database {
           author: string;
           common_name?: string | null;
           description?: string | null;
+          endangered?: boolean;
           id?: number;
           image?: string | null;
           kingdom: Database["public"]["Enums"]["kingdom"];
@@ -56,6 +63,7 @@ export interface Database {
           author?: string;
           common_name?: string | null;
           description?: string | null;
+          endangered?: boolean;
           id?: number;
           image?: string | null;
           kingdom?: Database["public"]["Enums"]["kingdom"];
@@ -65,6 +73,43 @@ export interface Database {
         Relationships: [
           {
             foreignKeyName: "species_author_fkey";
+            columns: ["author"];
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      species_comments: {
+        Row: {
+          id: number;
+          species_id: number;
+          author: string;
+          content: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: number;
+          species_id: number;
+          author: string;
+          content: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: number;
+          species_id?: number;
+          author?: string;
+          content?: string;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "species_comments_species_id_fkey";
+            columns: ["species_id"];
+            referencedRelation: "species";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "species_comments_author_fkey";
             columns: ["author"];
             referencedRelation: "profiles";
             referencedColumns: ["id"];

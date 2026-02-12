@@ -18,6 +18,9 @@ export default async function Navbar({ className, ...props }: React.HTMLAttribut
           <Link href="/species" className="text-sm font-medium transition-colors hover:text-primary">
             Species
           </Link>
+          <Link href="/users" className="text-sm font-medium transition-colors hover:text-primary">
+            Users
+          </Link>
           <Link href="/species-speed" className="text-sm font-medium transition-colors hover:text-primary">
             Species Speed
           </Link>
